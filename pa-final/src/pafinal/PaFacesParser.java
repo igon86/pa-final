@@ -5,6 +5,7 @@
 package pafinal;
 
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import sun.security.pkcs.ParsingException;
@@ -24,6 +25,7 @@ public class PaFacesParser {
         //manca la roba dove scrivere
     }
 
+    //deprecated
     public void stupidParse() throws XMLStreamException {
         while (lookahead != null) {
             System.out.println("TOKEN: " + lookahead);
@@ -33,89 +35,119 @@ public class PaFacesParser {
 
     }
 
-    public void parseComponent() throws XMLStreamException, ParsingException {
+    public PaFacesObject parseComponent() throws XMLStreamException, ParsingException {
         System.out.println("Parse Component: " + lookahead);
-        parseElement();
+        //Un po brutale?
+        PaFacesObject machine;
+        machine = parseElement();
         match("$");
         scanner.close();
+        return machine;
     }
 
-    private void parseElement() throws XMLStreamException, ParsingException {
+    private PaFacesObject parseElement() throws XMLStreamException, ParsingException {
         System.out.println("Parse Element: " + lookahead);
         String actual = lookahead;
-        /* parso il primo TAG necessario */
-        parseTag();
+        /* parso il primo TAG necessario e lo assegno al nodo che mi rappresenta*/
+        PaFacesObject me = parseTag();
         if (scanner.sectionType != XMLStreamConstants.END_ELEMENT) {
+            //C'E` UN TREE
             System.out.println("Parse Element: Elemento "+actual+" NON terminato analizzo il sottoalbero");
-            parseTree();
-            
+            //ESSENDO UN TREE LA SU ROBA STA NEI FIGLIOLI
+            me.children = parseTree();
         }
-        else{
-            System.out.println("Parse Element: Elemento terminato chiamo la next");   
-        }
-        lookahead = scanner.next();
+        /* Either I parsed a tree or a single element I need to match its closing tag*/
+        parseClosingTag();
+        return me;
     }
 
-    private void parseTree() throws XMLStreamException, ParsingException {
+    private LinkedList<PaFacesObject> parseTree() throws XMLStreamException, ParsingException {
         System.out.println("Parse Tree: " + lookahead);
         /* controllo di non avere un tree vuoto */
+        LinkedList<PaFacesObject> ret = new LinkedList<PaFacesObject>();
+        LinkedList<PaFacesObject> next;
         if (scanner.sectionType != XMLStreamConstants.END_ELEMENT) {
 
             if (scanner.sectionType == XMLStreamConstants.CHARACTERS) {
                 
                 //metti il testo da qualche parte
+                ret.add(new PaFacesObject(lookahead));
                 lookahead = scanner.next();
+
             }
             //if(scanner.sectionType == XMLStreamConstants.CHARACTERS)
             else {
-                parseElement();
+                ret.add(parseElement());
             }
-            parseTree();
+            //RICORSIONE
+            next = parseTree();
+            // MI APPICCICO I VICINI
+            ret.addAll(next);
         }
+        //RITORNO LA LISTA
+        return ret;
     }
 
-    private boolean parseClosingTag() throws XMLStreamException, ParsingException {
+    // JUST CHECK WHETHER  A CLOSING TAG EXISTS AND TAKES THE NEW LOOKAHEAD SYMBOL
+    // IT EXPLICETELY HAS NO RETURN STATUS
+    private void parseClosingTag() throws XMLStreamException, ParsingException {
         System.out.println("Parse Closing Tag: " + lookahead);
         if (scanner.sectionType == XMLStreamConstants.END_ELEMENT) {
             System.out.println("Closing Tag Ho beccato l'end element e chiamo la next");
             lookahead = scanner.next();
-            return true;
         } else {
-            return false;
+            throw new ParsingException();
         }
     }
 
-    /**
-     *
-     * @return true     Non ho chiuso il tag
-     *         false    Altrimenti
-     */
-    private void parseTag() throws XMLStreamException, ParsingException {
+    // SHOULD BE INVOKED ONLY ON A OPEN TAG and STOPS at the CLOSING TAG
+   private PaFacesObject parseTag() throws XMLStreamException, ParsingException {
         System.out.println("Parse Tag: " + lookahead);
         if (scanner.sectionType == XMLStreamConstants.START_ELEMENT) {
-            // QUESTA DISTINZIONE HA SENSO SOLO SE DECIDERO DI DIFFERENZIARE I VARI TAG
-            if (lookahead.equals("using")) {
-                lookahead = scanner.next();
-                parseAttribute();
-            } else if (lookahead.equals("insert-head")) {
-                lookahead = scanner.next();
-                parseAttribute();
-            } else {
+            // QUESTA DISTINZIONE HA SENSO SOLO SE DECIDERO DI DIFFERENZIARE I VARI TAG!!
+//            if (lookahead.equals("using")) {
+//                lookahead = scanner.next();
+//                parseAttribute();
+//            } else if (lookahead.equals("insert-head")) {
+//                lookahead = scanner.next();
+//                parseAttribute();
+//            } else {
                 //aggiungo il tagname alla macchina
+                PaFacesObject ret = new PaFacesObject(lookahead);
                 System.out.println("parseTag: chiamo la next per vedere gli attributi");
                 lookahead = scanner.next();
-                parseAttribute();
-            }
+                ret.attr = parseAttribute();
+                return ret;
+//            }
         }
+        return null;
     }
 
-    private void parseAttribute() throws XMLStreamException {
+    private LinkedList<PaFacesAttributes> parseAttribute() throws XMLStreamException {
         System.out.println("Parse Attribute: " + lookahead);
+        LinkedList<PaFacesAttributes> ret = new LinkedList<PaFacesAttributes>();
+        String id=null;
+        String value;
         if (scanner.sectionType == XMLStreamConstants.ATTRIBUTE) {
             System.out.println("CI sono attributi");
-            while(scanner.sectionType == XMLStreamConstants.ATTRIBUTE) scanner.next();
+            
+            while(scanner.sectionType == XMLStreamConstants.ATTRIBUTE){
+                //E` il nome
+                if (scanner.retname) id = lookahead;
+                //e` il valore
+                else{
+                    value = lookahead;
+                    ret.add(new PaFacesAttributes(id, value));
+                }
+                lookahead = scanner.next();
+            }
+            return ret;
         }
-        else System.out.println("NON ci sono attributi");
+        else{
+            System.out.println("NON ci sono attributi");
+            //Sarebbe piu` giusto ritornare null?
+            return ret;
+        }
     }
 
     private void match(String s) throws ParsingException{

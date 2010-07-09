@@ -15,7 +15,7 @@ public class PaFacesTokenizer {
 
     private int actualAttribute, numAttribute;
     private XMLStreamReader reader;
-    private boolean retname = false;
+    boolean retname = false;
 
     public int sectionType;
 

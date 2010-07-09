@@ -13,11 +13,12 @@ import java.util.LinkedList;
  */
 public class PaFacesObject {
 
-    private String id;
-    private LinkedList<PaFacesObject> children;
+    public String id;
+    public LinkedList<PaFacesObject> children;
+    public LinkedList<PaFacesAttributes> attr;
 
     PaFacesObject(String id){
         this.id = id;
-        children = new LinkedList<PaFacesObject>();
     }
+
 }
