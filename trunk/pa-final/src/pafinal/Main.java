@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import javax.xml.stream.XMLStreamException;
+import sun.security.pkcs.ParsingException;
 
 
 /**
@@ -16,18 +17,15 @@ import javax.xml.stream.XMLStreamException;
  */
 public class Main {
 
+    public static PrintStream pout;
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws FileNotFoundException, XMLStreamException {
-        PaFacesTokenizer scanner = new PaFacesTokenizer("/Users/andrealottarini/Desktop/test.xml");
+    public static void main(String[] args) throws FileNotFoundException, XMLStreamException, ParsingException {
         File f = new File("/Users/andrealottarini/Desktop/scanned.txt");
-        PrintStream pout = new PrintStream(f);
-        String token = scanner.next();
-        while (token != null){
-            System.out.println("TOKEN: "+token);
-            token = scanner.next();
-            pout.println(token);
-        }
+        pout = new PrintStream(f);
+        PaFacesParser parser = new PaFacesParser("/Users/andrealottarini/Desktop/test.xml");
+        parser.parseComponent();
+        //parser.stupidParse();
     }
 }
