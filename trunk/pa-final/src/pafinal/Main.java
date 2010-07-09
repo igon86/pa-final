@@ -18,14 +18,27 @@ import sun.security.pkcs.ParsingException;
 public class Main {
 
     public static PrintStream pout;
+    public static PrintStream outTree;
+    public static PrintStream outCode;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException, XMLStreamException, ParsingException {
         File f = new File("/Users/andrealottarini/Desktop/scanned.txt");
         pout = new PrintStream(f);
+
+        File g = new File("/Users/andrealottarini/Desktop/out.txt");
+        outTree = new PrintStream(g);
+
+        File h = new File("/Users/andrealottarini/Desktop/code.txt");
+        outCode = new PrintStream(h);
+
         PaFacesParser parser = new PaFacesParser("/Users/andrealottarini/Desktop/test.xml");
-        parser.parseComponent();
+        PaFacesObject parseTree = parser.parseComponent();
+
+        PaFacesGenerator generator = new PaFacesGenerator();
+        generator.stupidGenerate(outTree, 0, parseTree);
+        generator.generate(outCode, parseTree);
         //parser.stupidParse();
     }
 }
