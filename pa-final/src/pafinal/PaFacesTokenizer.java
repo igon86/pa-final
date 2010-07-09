@@ -17,6 +17,8 @@ public class PaFacesTokenizer {
     private XMLStreamReader reader;
     private boolean retname = false;
 
+    public int sectionType;
+
     public PaFacesTokenizer(String filename) throws FileNotFoundException, XMLStreamException {
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 
@@ -41,25 +43,26 @@ public class PaFacesTokenizer {
     public String next() throws XMLStreamException {
 
         if (actualAttribute < numAttribute){
-            System.out.println("Sono nel ciclo iniziale");
+            sectionType = XMLStreamConstants.ATTRIBUTE;
+            System.out.println("SCANNER: Sono nel ciclo iniziale");
             retname = !retname;
             if(retname){
                 String dummy = reader.getAttributeLocalName(actualAttribute);
-                System.out.println("AttributeLocalName   "+dummy);
+                System.out.println("SCANNER: AttributeLocalName:   "+dummy);
                 return dummy;
             }
             else{
                 String dummy = reader.getAttributeValue(actualAttribute++);
-                System.out.println("AttributeValue   "+dummy);
+                System.out.println("SCANNER: AttributeValue:   "+dummy);
                 return dummy;
             }
         }
 
         String text = "";
         while (reader.hasNext()) {
-            int test = reader.next();
-            System.out.println("Ho letto" + test);
-            switch (test) {
+            sectionType = reader.next();
+            System.out.println("SCANNER: Ho letto" + sectionType);
+            switch (sectionType) {
                 case XMLStreamReader.CHARACTERS: {
                     if (!reader.getText().trim().isEmpty()) {
                         text = reader.getText();
@@ -72,23 +75,27 @@ public class PaFacesTokenizer {
 
                     numAttribute = reader.getAttributeCount();
                     String local = reader.getLocalName();
-                    System.out.println("Ci sono " + numAttribute + " Attributi");
+                    System.out.println("SCANNER: " +local+" Ci sono " + numAttribute + " Attributi");
                     actualAttribute = 0;
                     return local;
                 }
                 case XMLStreamReader.END_ELEMENT: {
 
                     String local = reader.getLocalName();
-                    System.out.println("End Element " + local);
+                    System.out.println("SCANNER: End Element " + local);
                     return local;
                 }
                 case XMLStreamReader.END_DOCUMENT: {
 
-                    System.out.println("End Document");
+                    System.out.println("SCANNER: End Document");
                     return "$";
                 }
             }
         }
         return null;
+    }
+
+    public void close() throws XMLStreamException{
+        reader.close();
     }
 }
