@@ -16,9 +16,11 @@ public class PaFacesObject {
     public String id;
     public LinkedList<PaFacesObject> children;
     public LinkedList<PaFacesAttributes> attr;
+    public boolean onlyText;
 
     PaFacesObject(String id){
         this.id = id;
+        this.onlyText = false;
     }
 
 }

@@ -10,11 +10,18 @@ package pafinal;
  * @author andrealottarini
  */
 public class PaFacesAttributes {
-    String id;
-    String value;
+    public String id;
+    public String value;
 
     public PaFacesAttributes(String id, String value){
         this.id = id;
         this.value = value;
+    }
+    public String toString(){
+        return this.id.concat("="+value);
+    }
+
+    public boolean equals(PaFacesAttributes x){
+        return (id.equals(x.id) && value.equals(x.value) );
     }
 }

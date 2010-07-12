@@ -71,7 +71,9 @@ public class PaFacesParser {
             if (scanner.sectionType == XMLStreamConstants.CHARACTERS) {
                 
                 //metti il testo da qualche parte
-                ret.add(new PaFacesObject(lookahead));
+                PaFacesObject temp = new PaFacesObject(lookahead);
+                temp.onlyText=true;
+                ret.add(temp);
                 lookahead = scanner.next();
 
             }
