@@ -35,10 +35,12 @@ public class Main {
 
         PaFacesParser parser = new PaFacesParser("/Users/andrealottarini/Desktop/test.xml");
         PaFacesObject parseTree = parser.parseComponent();
-
+        //parser.stupidParse();
         PaFacesGenerator generator = new PaFacesGenerator();
         generator.stupidGenerate(outTree, 0, parseTree);
+        generator.XMLgenerate(outCode, parseTree);
+        System.out.println("\n PARTE LA GENERATE\n");
         generator.generate(outCode, parseTree);
-        //parser.stupidParse();
+        generator.sbrodolaFuori(outCode);
     }
 }
