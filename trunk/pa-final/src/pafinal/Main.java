@@ -7,6 +7,8 @@ package pafinal;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.xml.stream.XMLStreamException;
 import sun.security.pkcs.ParsingException;
 
@@ -20,6 +22,7 @@ public class Main {
     public static PrintStream pout;
     public static PrintStream outTree;
     public static PrintStream outCode;
+    public static PrintStream outHTML;
     /**
      * @param args the command line arguments
      */
@@ -33,6 +36,9 @@ public class Main {
         File h = new File("/Users/andrealottarini/Desktop/code.txt");
         outCode = new PrintStream(h);
 
+        File j = new File("/Users/andrealottarini/Desktop/out.html");
+        outHTML = new PrintStream(j);
+
         PaFacesParser parser = new PaFacesParser("/Users/andrealottarini/Desktop/test.xml");
         PaFacesObject parseTree = parser.parseComponent();
         //parser.stupidParse();
@@ -42,5 +48,9 @@ public class Main {
         System.out.println("\n PARTE LA GENERATE\n");
         generator.generate(outCode, parseTree);
         generator.sbrodolaFuori(outCode);
+
+        Calendario cal  = new Calendario(new GregorianCalendar(2010,Calendar.JUNE,2));
+        //Calendario cal  = new Calendario(Calendar.getInstance());
+        cal.Render(outHTML);
     }
 }
