@@ -22,6 +22,7 @@ public class PaFacesGenerator {
     }
 
     public void printSpace(PrintStream pout, int levels) {
+        
         for (int i = 0; i < levels; i++) {
             pout.print("\t");
         }
