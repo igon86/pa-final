@@ -32,5 +32,10 @@ public class PaFacesText extends PaFacesObject{
         code.render = code.render.concat("\toutput.println(\""+this.id.trim()+"\");\n");
     }
 
+    @Override
+    public String getName() {
+        return this.id;
+    }
+
     
 }
