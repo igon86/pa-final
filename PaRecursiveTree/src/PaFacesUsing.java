@@ -23,7 +23,14 @@ public class PaFacesUsing extends PaFacesMarkup {
         //POTREBBE NON AVERE SENSO
         String temp = this.attr.getFirst().id;
 
-            code.head = code.head.concat("import " + temp + "\n");
+        code.head = code.head.concat("import " + temp + "\n");
         //System.out.print(header);
     }
+
+    @Override
+    public String getName() {
+        return "";
+    }
+
+
 }

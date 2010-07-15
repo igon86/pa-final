@@ -24,4 +24,9 @@ public class PaFacesInsert extends PaFacesMarkup{
         code.render = code.render.concat("for ( string s : headText) output.println(s + \";\n\" )");
     }
 
+    @Override
+    public String getName() {
+        return "";
+    }
+
 }

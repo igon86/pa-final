@@ -31,4 +31,9 @@ public class PaFacesHtml extends PaFacesElement{
         }
 
     }
+
+    @Override
+    public String getName() {
+        return id;
+    }
 }

@@ -31,4 +31,6 @@ public abstract class PaFacesObject {
 
     public abstract void getCode(Code code);
 
+    public abstract String getName();
+
 }
