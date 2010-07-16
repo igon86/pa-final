@@ -21,7 +21,7 @@ public class PaFacesInsert extends PaFacesMarkup{
 
     @Override
     public void getCode(Code code) {
-        Main.genOut.println("GEN: "+this.id);
+        Main.outGen.println("GEN: "+this.id);
         code.render = code.render.concat("\t\tfor ( string s : headText) output.println(s);\n");
     }
 

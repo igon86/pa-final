@@ -5,6 +5,7 @@
 
 
 import java.io.*;
+import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.*;
 
 /**
@@ -16,13 +17,14 @@ public class PaFacesTokenizer {
     private int actualAttribute, numAttribute;
     private XMLStreamReader reader;
     boolean retname = false;
+    private int actualNamespace, numNamespace;
 
     public int sectionType;
 
     public PaFacesTokenizer(String filename) throws FileNotFoundException, XMLStreamException {
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 
-        inputFactory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, Boolean.FALSE);
+        //inputFactory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, Boolean.FALSE);
 
         System.out.println("Creata la factory");
         File f = new File(filename);
@@ -42,9 +44,25 @@ public class PaFacesTokenizer {
 
     public String next() throws XMLStreamException {
 
+        if (actualNamespace < numNamespace){
+            sectionType = XMLStreamConstants.NAMESPACE;
+            System.out.println("SCANNER: sono nel ciclo namespace");
+            retname = !retname;
+            if(retname){
+                String dummy = reader.getNamespacePrefix(actualNamespace);
+                System.out.println("SCANNER: NamespacePrefix:   "+dummy);
+                return dummy;
+            }
+            else{
+                String dummy = reader.getNamespaceURI(actualNamespace++);
+                System.out.println("SCANNER: AttributeValue:   "+dummy);
+                return dummy;
+            }
+        }
+
         if (actualAttribute < numAttribute){
             sectionType = XMLStreamConstants.ATTRIBUTE;
-            System.out.println("SCANNER: Sono nel ciclo iniziale");
+            System.out.println("SCANNER: Sono nel ciclo attributi");
             retname = !retname;
             if(retname){
                 String dummy = reader.getAttributeLocalName(actualAttribute);
@@ -74,10 +92,11 @@ public class PaFacesTokenizer {
                 case XMLStreamReader.START_ELEMENT: {
 
                     numAttribute = reader.getAttributeCount();
-                    //System.out.println("NAMESPACE");
+                    numNamespace = reader.getNamespaceCount();
                     String local = reader.getLocalName();
-                    System.out.println("SCANNER: " +local+" Ci sono " + numAttribute + " Attributi");
+                    System.out.println("SCANNER: " +local+" Ci sono " + numAttribute + " Attributi e " + numNamespace +" Namespace");
                     actualAttribute = 0;
+                    actualNamespace = 0;
                     return local;
                 }
                 case XMLStreamReader.END_ELEMENT: {
