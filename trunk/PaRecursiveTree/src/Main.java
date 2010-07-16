@@ -19,33 +19,24 @@ import sun.security.pkcs.ParsingException;
  */
 public class Main {
 
-    public static PrintStream genOut;
-    public static PrintStream outTree;
+    public static final String PA_DIRECTORY = "/Users/andrealottarini/Desktop/PA_stuff/";
+
+    public static PrintStream outGen;
     public static PrintStream outCode;
     public static PrintStream outHTML;
-    public static PrintStream outCode2;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException, XMLStreamException, ParsingException {
         PaFacesGenerator generator;
-        
-        File f = new File("/Users/andrealottarini/Desktop/PA_stuff/generator.txt");
-        genOut = new PrintStream(f);
 
-        File g = new File("/Users/andrealottarini/Desktop/PA_stuff/out.txt");
-        outTree = new PrintStream(g);
+        File code = new File(PA_DIRECTORY+"code.txt");
+        outCode = new PrintStream(code);
 
-        File h = new File("/Users/andrealottarini/Desktop/PA_stuff/code.txt");
-        outCode = new PrintStream(h);
+        File gen = new File(PA_DIRECTORY+"generatore.txt");
+        outGen = new PrintStream(gen);
 
-        File j = new File("/Users/andrealottarini/Desktop/PA_stuff/out.html");
-        outHTML = new PrintStream(j);
-
-        File k = new File("/Users/andrealottarini/Desktop/PA_stuff/CAZZO.txt");
-        outCode2 = new PrintStream(k);
-
-        PaFacesParser parser = new PaFacesParser("/Users/andrealottarini/Desktop/PA_stuff/test2.xml");
+        PaFacesParser parser = new PaFacesParser(PA_DIRECTORY+"test3.xml");
         PaFacesObject parseTree = parser.parseComponent();
 
         generator = new PaFacesGenerator();
@@ -57,7 +48,7 @@ public class Main {
 
 //
 //        generator = new PaFacesGenerator();
-        generator.writeCode(outCode2,parseTree);
+        generator.writeCode(outCode,parseTree);
 //
 //        Calendario cal  = new Calendario(new GregorianCalendar(2010,Calendar.JUNE,2));
 //        //Calendario cal  = new Calendario(Calendar.getInstance());

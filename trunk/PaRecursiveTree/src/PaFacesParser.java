@@ -138,10 +138,10 @@ public class PaFacesParser {
         LinkedList<PaFacesAttributes> ret = new LinkedList<PaFacesAttributes>();
         String id = null;
         String value;
-        if (scanner.sectionType == XMLStreamConstants.ATTRIBUTE) {
+        if (scanner.sectionType == XMLStreamConstants.ATTRIBUTE || scanner.sectionType == XMLStreamConstants.NAMESPACE ) {
             System.out.println("CI sono attributi");
 
-            while (scanner.sectionType == XMLStreamConstants.ATTRIBUTE) {
+            while (scanner.sectionType == XMLStreamConstants.ATTRIBUTE || scanner.sectionType == XMLStreamConstants.NAMESPACE) {
                 //E` il nome
                 if (scanner.retname) {
                     id = lookahead;

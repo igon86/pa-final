@@ -26,7 +26,7 @@ public class PaFacesIstance extends PaFacesMarkup {
 
     @Override
     public void getCode(Code code) {
-        Main.genOut.println("GEN: " + this.id);
+        Main.outGen.println("GEN: " + this.id);
         //nome della variabile di istanza analizzata
         for (PaFacesAttributes attribute : this.attr) {
             //variabile
