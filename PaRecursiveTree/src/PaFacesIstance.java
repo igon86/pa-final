@@ -35,7 +35,7 @@ public class PaFacesIstance extends PaFacesMarkup {
                 //Classe
                 String classe = this.getClasse();
                 code.var = code.var.concat("\tprotected " + classe + " " + name + ";\n");
-                code.constr = code.constr.concat("\t\t" + name + " = new " + classe + ";\n");
+                code.constr = code.constr.concat("\t\t" + name + " = new " + classe + "();\n");
                 if (!code.preRendered.contains(classe)) {
                     code.preRender = code.preRender.concat("\t\t" + name + ".preRender(headtext);\n");
                     code.preRendered.add(classe);
@@ -52,7 +52,7 @@ public class PaFacesIstance extends PaFacesMarkup {
             }
         }
         //metto la chiamata di render dell'oggetto embedded
-        code.render = code.render.concat("\t\t" + name + ".Render(output);\n");
+        code.render = code.render.concat("\t\t" + name + ".render(output,headText);\n");
 
         if (children.size() > 0) {
             //NESTED
