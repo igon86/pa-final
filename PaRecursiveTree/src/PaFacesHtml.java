@@ -21,13 +21,14 @@ public class PaFacesHtml extends PaFacesElement{
 
     @Override
     public void getCode(Code code) {
+        Main.genOut.println("GEN: "+this.id);
         if (this.children.size() > 0){
-            code.render = code.render.concat("\toutput.println(\"<"+id+">\");\n");
+            code.render = code.render.concat("\t\toutput.println(\"<"+id+">\");\n");
             for ( PaFacesObject child : this.children ) child.getCode(code);
-            code.render = code.render.concat("\toutput.println(\"</"+id+">\");\n");
+            code.render = code.render.concat("\t\toutput.println(\"</"+id+">\");\n");
         }
         else{
-            code.render = code.render.concat("\toutput.println(\"<"+id+"/>\");\n");
+            code.render = code.render.concat("\t\toutput.println(\"<"+id+"/>\");\n");
         }
 
     }

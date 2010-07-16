@@ -27,15 +27,6 @@ public class PaFacesParser {
         //manca la roba dove scrivere
     }
 
-    //deprecated
-    public void stupidParse() throws XMLStreamException {
-        while (lookahead != null) {
-            System.out.println("TOKEN: " + lookahead);
-            lookahead = scanner.next();
-            Main.pout.println(lookahead);
-        }
-
-    }
 
     public PaFacesObject parseComponent() throws XMLStreamException, ParsingException {
         System.out.println("Parse Component: " + lookahead);
