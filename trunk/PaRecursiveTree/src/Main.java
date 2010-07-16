@@ -19,7 +19,7 @@ import sun.security.pkcs.ParsingException;
  */
 public class Main {
 
-    public static PrintStream pout;
+    public static PrintStream genOut;
     public static PrintStream outTree;
     public static PrintStream outCode;
     public static PrintStream outHTML;
@@ -30,22 +30,22 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, XMLStreamException, ParsingException {
         PaFacesGenerator generator;
         
-        File f = new File("/Users/andrealottarini/Desktop/scanned.txt");
-        pout = new PrintStream(f);
+        File f = new File("/Users/andrealottarini/Desktop/PA_stuff/generator.txt");
+        genOut = new PrintStream(f);
 
-        File g = new File("/Users/andrealottarini/Desktop/out.txt");
+        File g = new File("/Users/andrealottarini/Desktop/PA_stuff/out.txt");
         outTree = new PrintStream(g);
 
-        File h = new File("/Users/andrealottarini/Desktop/code.txt");
+        File h = new File("/Users/andrealottarini/Desktop/PA_stuff/code.txt");
         outCode = new PrintStream(h);
 
-        File j = new File("/Users/andrealottarini/Desktop/out.html");
+        File j = new File("/Users/andrealottarini/Desktop/PA_stuff/out.html");
         outHTML = new PrintStream(j);
 
-        File k = new File("/Users/andrealottarini/Desktop/CAZZO.txt");
+        File k = new File("/Users/andrealottarini/Desktop/PA_stuff/CAZZO.txt");
         outCode2 = new PrintStream(k);
 
-        PaFacesParser parser = new PaFacesParser("/Users/andrealottarini/Desktop/test.xml");
+        PaFacesParser parser = new PaFacesParser("/Users/andrealottarini/Desktop/PA_stuff/test2.xml");
         PaFacesObject parseTree = parser.parseComponent();
 
         generator = new PaFacesGenerator();

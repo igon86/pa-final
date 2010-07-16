@@ -26,7 +26,7 @@ public class PaFacesIstance extends PaFacesMarkup {
 
     @Override
     public void getCode(Code code) {
-
+        Main.genOut.println("GEN: " + this.id);
         //nome della variabile di istanza analizzata
         for (PaFacesAttributes attribute : this.attr) {
             //variabile
@@ -34,20 +34,25 @@ public class PaFacesIstance extends PaFacesMarkup {
                 name = attribute.value;
                 //Classe
                 String classe = this.getClasse();
-                code.var = code.var.concat("protected " + classe + " " + name + ";\n");
-                code.constr = code.constr.concat("\t" + name + " = new " + classe + ";\n");
+                code.var = code.var.concat("\tprotected " + classe + " " + name + ";\n");
+                code.constr = code.constr.concat("\t\t" + name + " = new " + classe + ";\n");
                 if (!code.preRendered.contains(classe)) {
-                    code.preRender = code.preRender.concat("\t" + name + ".preRender(headtext);\n");
+                    code.preRender = code.preRender.concat("\t\t" + name + ".preRender(headtext);\n");
                     code.preRendered.add(classe);
                 }
             } else if (attribute.equals(new PaFacesAttributes("code", "generate"))) {
                 continue;
             } else {
-                code.render = code.render.concat("\t" + name + "." + attribute.id + "=" + attribute.value.substring(attribute.value.indexOf("{") + 1, attribute.value.lastIndexOf("}")) + ";\n");
+                if (attribute.value.contains("$")) {
+                    code.render = code.render.concat("\t\t" + name + "." + attribute.id + "=" + attribute.value.substring(attribute.value.indexOf("{") + 1, attribute.value.lastIndexOf("}")) + ";\n");
+                }
+                else{
+                    code.render = code.render.concat("\t\t" + name + "." + attribute.id + "=\"" + attribute.value +"\";\n");
+                }
             }
         }
         //metto la chiamata di render dell'oggetto embedded
-        code.render = code.render.concat("\t" + name + ".Render(output);\n");
+        code.render = code.render.concat("\t\t" + name + ".Render(output);\n");
 
         if (children.size() > 0) {
             //NESTED
@@ -61,7 +66,7 @@ public class PaFacesIstance extends PaFacesMarkup {
                 //richiedo il nome del componente nested
                 String childName = son.getName();
                 // creo l'associazione
-                code.render = code.render.concat("\t" + name + "." + attrName + "=" + childName);
+                code.render = code.render.concat("\t\t" + name + "." + attrName + "=" + childName + ";\n");
             }
         }
 

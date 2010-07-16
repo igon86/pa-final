@@ -74,6 +74,7 @@ public class PaFacesTokenizer {
                 case XMLStreamReader.START_ELEMENT: {
 
                     numAttribute = reader.getAttributeCount();
+                    //System.out.println("NAMESPACE");
                     String local = reader.getLocalName();
                     System.out.println("SCANNER: " +local+" Ci sono " + numAttribute + " Attributi");
                     actualAttribute = 0;
