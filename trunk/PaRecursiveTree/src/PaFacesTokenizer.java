@@ -26,20 +26,11 @@ public class PaFacesTokenizer {
 
         //inputFactory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, Boolean.FALSE);
 
-        System.out.println("Creata la factory");
         File f = new File(filename);
-        System.out.println("Aperto il file");
+        
         FileInputStream fin = new FileInputStream(f);
-        System.out.println("Aperto il FileInputStream");
+        
         reader = inputFactory.createXMLStreamReader(fin);
-        System.out.println("Creato il reader");
-        System.out.println("ATTRIBUTE" + XMLStreamConstants.ATTRIBUTE);
-        System.out.println("START DOCUMENT" + XMLStreamConstants.START_DOCUMENT);
-        System.out.println("SPACE" + XMLStreamConstants.SPACE);
-        System.out.println("START ELEMENT" + XMLStreamConstants.START_ELEMENT);
-        System.out.println("END ELEMENT" + XMLStreamConstants.END_ELEMENT);
-        System.out.println("CHARACTERS" + XMLStreamConstants.CHARACTERS);
-        System.out.println("END_DOCUMENT" + XMLStreamConstants.END_DOCUMENT);
     }
 
     public String next() throws XMLStreamException {
