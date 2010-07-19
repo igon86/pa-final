@@ -51,9 +51,7 @@ public class PaFacesIstance extends PaFacesMarkup {
                 }
             }
         }
-        //metto la chiamata di render dell'oggetto embedded
-        code.render = code.render.concat("\t\t" + name + ".render(output,headText);\n");
-
+        
         if (children.size() > 0) {
             //NESTED
             for (PaFacesObject child : children) {
@@ -65,11 +63,16 @@ public class PaFacesIstance extends PaFacesMarkup {
                 son.getCode(code);
                 //richiedo il nome del componente nested
                 String childName = son.getName();
+                //devo togliere il render del figlio
+                //System.out.println(code.render.lastIndexOf("\n", code.render.length() -2));
+                code.render = code.render.substring(0,code.render.lastIndexOf("\n", code.render.length() -2)+1);
                 // creo l'associazione
                 code.render = code.render.concat("\t\t" + name + "." + attrName + "=" + childName + ";\n");
             }
         }
 
+        //metto la chiamata di render dell'oggetto embedded
+        code.render = code.render.concat("\t\t" + name + ".render(output,headText);\n");
     }
 
     @Override
