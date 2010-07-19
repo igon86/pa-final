@@ -8,14 +8,19 @@ import java.util.LinkedList;
  */
 public class Code {
 
-    String head = "";
-    String var = "";
-    String constr = "";
-    String render = "";
-    String preRender = "";
+    StringBuilder head;
+    StringBuilder var;
+    StringBuilder constr;
+    StringBuilder render;
+    StringBuilder preRender;
     LinkedList<String> preRendered;
 
     public Code(){
+        head = new StringBuilder();
+        var = new StringBuilder();
+        constr = new StringBuilder();
+        render = new StringBuilder();
+        preRender = new StringBuilder();
         preRendered = new LinkedList<String>();
     }
 }

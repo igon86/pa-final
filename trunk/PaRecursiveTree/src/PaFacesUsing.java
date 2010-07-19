@@ -22,7 +22,7 @@ public class PaFacesUsing extends PaFacesMarkup {
         //System.out.println("Ho beccato using");
         //POTREBBE NON AVERE SENSO
         String temp = this.attr.getFirst().id;
-        code.head = code.head.concat("import " + temp + ".*;\n");
+        code.head.append("import " + temp + ".*;\n");
         // se faccio il namespace a garbo ci sono i figlioli
         for ( PaFacesObject child : children ){
             child.getCode(code);
