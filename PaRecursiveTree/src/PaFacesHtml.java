@@ -23,12 +23,12 @@ public class PaFacesHtml extends PaFacesElement{
     public void getCode(Code code) {
         Main.outGen.println("GEN: "+this.id);
         if (this.children.size() > 0){
-            code.render = code.render.concat("\t\toutput.println(\"<"+id+">\");\n");
+            code.render.append("\t\toutput.println(\"<"+id+">\");\n");
             for ( PaFacesObject child : this.children ) child.getCode(code);
-            code.render = code.render.concat("\t\toutput.println(\"</"+id+">\");\n");
+            code.render.append("\t\toutput.println(\"</"+id+">\");\n");
         }
         else{
-            code.render = code.render.concat("\t\toutput.println(\"<"+id+"/>\");\n");
+            code.render.append("\t\toutput.println(\"<"+id+"/>\");\n");
         }
 
     }

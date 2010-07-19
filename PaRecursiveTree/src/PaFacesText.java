@@ -29,7 +29,7 @@ public class PaFacesText extends PaFacesObject{
 
     @Override
     public void getCode(Code code) {
-        code.render = code.render.concat("\t\toutput.println(\""+this.id.trim()+"\");\n");
+        code.render.append("\t\toutput.println(\""+this.id.trim()+"\");\n");
     }
 
     @Override

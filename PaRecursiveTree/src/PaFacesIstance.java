@@ -34,20 +34,20 @@ public class PaFacesIstance extends PaFacesMarkup {
                 name = attribute.value;
                 //Classe
                 String classe = this.getClasse();
-                code.var = code.var.concat("\tprotected " + classe + " " + name + ";\n");
-                code.constr = code.constr.concat("\t\t" + name + " = new " + classe + "();\n");
+                code.var.append("\tprotected " + classe + " " + name + ";\n");
+                code.constr.append("\t\t" + name + " = new " + classe + "();\n");
                 if (!code.preRendered.contains(classe)) {
-                    code.preRender = code.preRender.concat("\t\t" + name + ".preRender(headtext);\n");
+                    code.preRender.append("\t\t" + name + ".preRender(headtext);\n");
                     code.preRendered.add(classe);
                 }
             } else if (attribute.equals(new PaFacesAttributes("code", "generate"))) {
                 continue;
             } else {
                 if (attribute.value.contains("$")) {
-                    code.render = code.render.concat("\t\t" + name + "." + attribute.id + "=" + attribute.value.substring(attribute.value.indexOf("{") + 1, attribute.value.lastIndexOf("}")) + ";\n");
+                    code.render.append("\t\t" + name + "." + attribute.id + "=" + attribute.value.substring(attribute.value.indexOf("{") + 1, attribute.value.lastIndexOf("}")) + ";\n");
                 }
                 else{
-                    code.render = code.render.concat("\t\t" + name + "." + attribute.id + "=\"" + attribute.value +"\";\n");
+                    code.render.append("\t\t" + name + "." + attribute.id + "=\"" + attribute.value +"\";\n");
                 }
             }
         }
@@ -65,14 +65,14 @@ public class PaFacesIstance extends PaFacesMarkup {
                 String childName = son.getName();
                 //devo togliere il render del figlio
                 //System.out.println(code.render.lastIndexOf("\n", code.render.length() -2));
-                code.render = code.render.substring(0,code.render.lastIndexOf("\n", code.render.length() -2)+1);
+                code.render.delete(code.render.lastIndexOf("\n", code.render.length() -2)+1,code.render.length());
                 // creo l'associazione
-                code.render = code.render.concat("\t\t" + name + "." + attrName + "=" + childName + ";\n");
+                code.render.append("\t\t" + name + "." + attrName + "=" + childName + ";\n");
             }
         }
 
         //metto la chiamata di render dell'oggetto embedded
-        code.render = code.render.concat("\t\t" + name + ".render(output,headText);\n");
+        code.render.append("\t\t" + name + ".render(output,headText);\n");
     }
 
     @Override
