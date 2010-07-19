@@ -21,12 +21,6 @@ public class PaFacesText extends PaFacesObject{
         super(id);
     }
 
-    //DA BUTTARE
-    @Override
-    public LinkedList<PaFacesAttributes> getAttr() {
-        return new LinkedList<PaFacesAttributes>();
-    }
-
     @Override
     public void getCode(Code code) {
         code.render.append("\t\toutput.println(\""+this.id.trim()+"\");\n");

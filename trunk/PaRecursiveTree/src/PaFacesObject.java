@@ -26,9 +26,6 @@ public abstract class PaFacesObject {
         this.id = id;
     }
 
-    //da eliminare
-    public abstract LinkedList<PaFacesAttributes> getAttr();
-
     public abstract void getCode(Code code);
 
     public abstract String getName();
