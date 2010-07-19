@@ -40,7 +40,7 @@ public class Main {
         File html = new File(PA_DIRECTORY+"out.html");
         outHtml = new PrintStream(html);
 
-        PaFacesParser parser = new PaFacesParser(PA_DIRECTORY+"test3.xml");
+        PaFacesParser parser = new PaFacesParser(PA_DIRECTORY+"test4.xml");
         PaFacesObject parseTree = parser.parseComponent();
 
         generator = new PaFacesGenerator();
