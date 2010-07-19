@@ -24,10 +24,4 @@ public abstract class PaFacesElement extends PaFacesObject{
         attr = new LinkedList<PaFacesAttributes>();
     }
 
-    @Override
-    public LinkedList<PaFacesAttributes> getAttr() {
-        return this.attr;
-    }
-
-
 }
