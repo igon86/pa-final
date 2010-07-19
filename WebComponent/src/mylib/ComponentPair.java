@@ -14,15 +14,16 @@ import java.util.List;
  * @author andrealottarini
  */
 public class ComponentPair implements WebComponent {
-    WebComponent first;
-    WebComponent second;
+    public WebComponent first;
+    public WebComponent second;
 
     public void preRender(List<String> headtext) {
-
+        
     }
 
     public void render(PrintStream output, List<String> headText) {
-        
+        first.render(output, headText);
+        second.render(output, headText);
     }
 
 }
