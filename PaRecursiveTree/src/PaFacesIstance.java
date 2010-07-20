@@ -40,7 +40,7 @@ public class PaFacesIstance extends PaFacesMarkup {
                     code.preRender.append("\t\t" + name + ".preRender(headtext);\n");
                     code.preRendered.add(classe);
                 }
-            } else if (attribute.equals(new PaFacesAttributes("code", "generate"))) {
+            } else if (attribute.id.equals("code") && attribute.value.equals("generate")){
                 continue;
             } else {
                 if (attribute.value.contains("$")) {
