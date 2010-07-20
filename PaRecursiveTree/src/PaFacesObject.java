@@ -15,8 +15,7 @@ public abstract class PaFacesObject {
 
     public String id;
     public LinkedList<PaFacesObject> children;
-    Iterable<PaFacesAttributes> getAttr;
-
+    
     PaFacesObject(){
         this.children = new LinkedList<PaFacesObject>();
     }
