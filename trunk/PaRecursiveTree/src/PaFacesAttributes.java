@@ -10,12 +10,5 @@ public class PaFacesAttributes {
         this.id = id;
         this.value = value;
     }
-    @Override
-    public String toString(){
-        return this.id.concat("="+value);
-    }
 
-    public boolean equals(PaFacesAttributes x){
-        return (id.equals(x.id) && value.equals(x.value) );
-    }
 }
