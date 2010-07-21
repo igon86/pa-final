@@ -50,15 +50,5 @@ public class Main {
 
         generator.writeCode(outCode,parseTree);
 
-//        Label label = new Label("STICAZZI");
-//        label.Render(outHtml);
-//
-//        //PROVA DELL'HTML
-//        Calendario cal  = new Calendario(new GregorianCalendar(2010,Calendar.JUNE,2));
-//        //Calendario cal  = new Calendario(Calendar.getInstance());
-//        cal.Render(outHtml);
-//
-//        Button but = new Button("http://www.cli.di.unipi.it/~lottarin/putto.jpg");
-//        but.Render(outHtml);
     }
 }

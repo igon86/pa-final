@@ -4,11 +4,11 @@ package PaFaces;
  *
  * @author andrealottarini
  */
-public class PaFacesAttributes {
+public class PaFacesAttribute {
     public String id;
     public String value;
 
-    public PaFacesAttributes(String id, String value){
+    public PaFacesAttribute(String id, String value){
         this.id = id;
         this.value = value;
     }

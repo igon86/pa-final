@@ -14,16 +14,16 @@ import java.util.LinkedList;
  * @author andrealottarini
  */
 public abstract class PaFacesElement extends PaFacesObject{
-    public LinkedList<PaFacesAttributes> attr;
+    public LinkedList<PaFacesAttribute> attr;
 
     public PaFacesElement(){
         super();
-        attr = new LinkedList<PaFacesAttributes>();
+        attr = new LinkedList<PaFacesAttribute>();
     }
 
     public PaFacesElement(String id){
         super(id);
-        attr = new LinkedList<PaFacesAttributes>();
+        attr = new LinkedList<PaFacesAttribute>();
     }
 
 }
