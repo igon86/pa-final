@@ -20,10 +20,6 @@ public class PaFacesInstance extends PaFacesMarkup {
         this.name = name;
     }
 
-    private String getClasse() {
-        return this.id.substring(this.id.lastIndexOf(":") + 1, this.id.length());
-    }
-
     @Override
     public void getCode(Code code) {
         Iterator<PaFacesAttribute> h = attr.iterator();
@@ -35,12 +31,12 @@ public class PaFacesInstance extends PaFacesMarkup {
             if (attribute.id.equals("id")) {
                 name = attribute.value;
                 //Classe
-                String classe = this.getClasse();
-                code.getVar().append("\tprotected " + classe + " " + name + ";\n");
-                code.getConstr().append("\t\t" + name + " = new " + classe + "();\n");
-                if (!code.getPreRendered().contains(classe)) {
+                String className = this.id.substring(this.id.lastIndexOf(":") + 1, this.id.length());
+                code.getVar().append("\tprotected " + className + " " + name + ";\n");
+                code.getConstr().append("\t\t" + name + " = new " + className + "();\n");
+                if (!code.getPreRendered().contains(className)) {
                     code.getPreRender().append("\t\t" + name + ".preRender(headtext);\n");
-                    code.getPreRendered().add(classe);
+                    code.getPreRendered().add(className);
                 }
             } else if (attribute.id.equals("code") && attribute.value.equals("generate")) {
                 continue;
@@ -55,7 +51,7 @@ public class PaFacesInstance extends PaFacesMarkup {
 
         Iterator<PaFacesObject> i = children.iterator();
         PaFacesObject child;
-        while(i.hasNext()){
+        while (i.hasNext()) {
             child = i.next();
             //prendo il nome dell'attributo
             String attrName = child.id;
@@ -66,7 +62,6 @@ public class PaFacesInstance extends PaFacesMarkup {
             //richiedo il nome del componente nested
             String childName = son.getName();
             //devo togliere il render del figlio
-            //System.out.println(code.render.lastIndexOf("\n", code.render.length() -2));
             code.getRender().delete(code.getRender().lastIndexOf("\n", code.getRender().length() - 2) + 1, code.getRender().length());
             // creo l'associazione
             code.getRender().append("\t\t" + name + "." + attrName + "=" + childName + ";\n");

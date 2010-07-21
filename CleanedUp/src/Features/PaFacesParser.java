@@ -17,12 +17,10 @@ public class PaFacesParser {
         scanner = new PaFacesTokenizer(filename);
         lookahead = scanner.next();
         markup = false;
-        //manca la roba dove scrivere
     }
 
     public PaFacesObject parseComponent() throws XMLStreamException, ParsingException {
-        System.out.println("Parse Component: " + lookahead);
-        //Un po brutale?
+        
         PaFacesObject machine;
         machine = parseElement();
         match("$");
@@ -31,30 +29,29 @@ public class PaFacesParser {
     }
 
     private PaFacesObject parseElement() throws XMLStreamException, ParsingException {
-        System.out.println("Parse Element: " + lookahead);
-        String actual = lookahead;
+        
         /* parso il primo TAG necessario e lo assegno al nodo che mi rappresenta*/
-        PaFacesObject me = parseTag();
+        PaFacesObject machine = parseTag();
         if (scanner.sectionType != XMLStreamConstants.END_ELEMENT) {
             //C'E` UN TREE
-            System.out.println("Parse Element: Elemento " + actual + " NON terminato analizzo il sottoalbero");
+            
             //ESSENDO UN TREE LA SU ROBA STA NEI FIGLIOLI
-            me.children = parseTree();
+            machine.children = parseTree();
         }
         /* Either I parsed a tree or a single element I need to match its closing tag*/
-        if (me != null) {
+        if (machine != null) {
             LinkedList<PaFacesObject> sons = parseTree();
             if (sons != null) {
-                me.children = sons;
+                machine.children = sons;
             }
             parseClosingTag();
-            return me;
+            return machine;
         }
         return null;
     }
 
     private LinkedList<PaFacesObject> parseTree() throws XMLStreamException, ParsingException {
-        System.out.println("Parse Tree: " + lookahead);
+        
 
         PaFacesObject actual = parseText();
         if (actual == null) {
@@ -75,22 +72,18 @@ public class PaFacesParser {
         }
     }
 
-    // JUST CHECK WHETHER  A CLOSING TAG EXISTS AND TAKES THE NEW LOOKAHEAD SYMBOL
-    // IT EXPLICETELY HAS NO RETURN STATUS
+    // THIS METHOD EXPLICETELY HAS NO RETURN STATUS
     private void parseClosingTag() throws XMLStreamException, ParsingException {
-        System.out.println("Parse Closing Tag: " + lookahead);
+        
         if (scanner.sectionType == XMLStreamConstants.END_ELEMENT) {
-            System.out.println("Closing Tag Ho beccato l'end element e chiamo la next");
+            
             lookahead = scanner.next();
         } else {
             throw new ParsingException();
         }
     }
 
-    // SHOULD BE INVOKED ONLY ON A OPEN TAG and STOPS at the CLOSING TAG
     private PaFacesObject parseTag() throws XMLStreamException, ParsingException {
-        System.out.println("Parse Tag: " + lookahead);
-
         if (scanner.sectionType == XMLStreamConstants.START_ELEMENT) {
 
             PaFacesElement ret;
@@ -99,12 +92,16 @@ public class PaFacesParser {
             String id = lookahead;
             lookahead = scanner.next();
             PaFacesAttribute attr = parseAttribute();
-            
-            while (attr != null){
-                System.out.println("Attributo: "+attr.id+" "+attr.value);
+
+            while (attr != null) {
+
                 attributes.add(attr);
-                if ( attr.id.equals("code") && attr.value.equals("generate") ) markup = true;
-                if ( attr.id.equals("id") ) name = attr.value;
+                if (attr.id.equals("code") && attr.value.equals("generate")) {
+                    markup = true;
+                }
+                if (attr.id.equals("id")) {
+                    name = attr.value;
+                }
                 attr = parseAttribute();
             }
 
@@ -114,13 +111,10 @@ public class PaFacesParser {
                 ret = new PaFacesInsert(id);
             } else {
                 if (markup) {
-                    System.out.println("PaFacesISTANCE: " + id);
-                    ret = new PaFacesInstance(id,name);
+                    ret = new PaFacesInstance(id, name);
                 } else {
-                    System.out.println("PaFacesHTML: " + id);
                     ret = new PaFacesHtml(id);
                 }
-
             }
             markup = false;
             ret.attr = attributes;
@@ -131,7 +125,7 @@ public class PaFacesParser {
 
     private PaFacesAttribute parseAttribute() throws XMLStreamException {
 
-        
+
         String id = null, value = null;
 
         if (scanner.sectionType == XMLStreamConstants.ATTRIBUTE || scanner.sectionType == XMLStreamConstants.NAMESPACE) {
@@ -147,15 +141,15 @@ public class PaFacesParser {
     }
 
     private PaFacesObject parseText() throws XMLStreamException {
-        System.out.println("Parse Text: " + lookahead);
+        
         if (scanner.sectionType == XMLStreamConstants.CHARACTERS) {
             PaFacesText temp = new PaFacesText(lookahead);
-            System.out.println("PaFacesTEXT");
+           
             lookahead = scanner.next();
             return temp;
 
         }
-        System.out.println("NOT TEXT");
+        
         return null;
 
     }

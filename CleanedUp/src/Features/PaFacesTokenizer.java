@@ -9,49 +9,46 @@ public class PaFacesTokenizer {
     private XMLStreamReader reader;
     boolean retname = false;
     private int actualNamespace, numNamespace;
-
     public int sectionType;
 
     public PaFacesTokenizer(String filename) throws FileNotFoundException, XMLStreamException {
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 
         File f = new File(filename);
-        
+
         FileInputStream fin = new FileInputStream(f);
-        
+
         reader = inputFactory.createXMLStreamReader(fin);
     }
 
     public String next() throws XMLStreamException {
 
-        if (actualNamespace < numNamespace){
+        if (actualNamespace < numNamespace) {
             sectionType = XMLStreamConstants.NAMESPACE;
-            System.out.println("SCANNER: sono nel ciclo namespace");
+
             retname = !retname;
-            if(retname){
+            if (retname) {
                 String dummy = reader.getNamespacePrefix(actualNamespace);
-                System.out.println("SCANNER: NamespacePrefix:   "+dummy);
+
                 return dummy;
-            }
-            else{
+            } else {
                 String dummy = reader.getNamespaceURI(actualNamespace++);
-                System.out.println("SCANNER: AttributeValue:   "+dummy);
+
                 return dummy;
             }
         }
 
-        if (actualAttribute < numAttribute){
+        if (actualAttribute < numAttribute) {
             sectionType = XMLStreamConstants.ATTRIBUTE;
-            System.out.println("SCANNER: Sono nel ciclo attributi");
+
             retname = !retname;
-            if(retname){
+            if (retname) {
                 String dummy = reader.getAttributeLocalName(actualAttribute);
-                System.out.println("SCANNER: AttributeLocalName:   "+dummy);
+
                 return dummy;
-            }
-            else{
+            } else {
                 String dummy = reader.getAttributeValue(actualAttribute++);
-                System.out.println("SCANNER: AttributeValue:   "+dummy);
+
                 return dummy;
             }
         }
@@ -59,12 +56,12 @@ public class PaFacesTokenizer {
         String text = "";
         while (reader.hasNext()) {
             sectionType = reader.next();
-            System.out.println("SCANNER: Ho letto" + sectionType);
+
             switch (sectionType) {
                 case XMLStreamReader.CHARACTERS: {
                     if (!reader.getText().trim().isEmpty()) {
-                        text = reader.getText();
-                        //System.out.println("     " + text);
+                        text = reader.getText().trim();
+
                         return text;
                     }
                     break;
@@ -74,7 +71,7 @@ public class PaFacesTokenizer {
                     numAttribute = reader.getAttributeCount();
                     numNamespace = reader.getNamespaceCount();
                     String local = reader.getLocalName();
-                    System.out.println("SCANNER: " +local+" Ci sono " + numAttribute + " Attributi e " + numNamespace +" Namespace");
+
                     actualAttribute = 0;
                     actualNamespace = 0;
                     return local;
@@ -82,12 +79,10 @@ public class PaFacesTokenizer {
                 case XMLStreamReader.END_ELEMENT: {
 
                     String local = reader.getLocalName();
-                    System.out.println("SCANNER: End Element " + local);
+
                     return local;
                 }
                 case XMLStreamReader.END_DOCUMENT: {
-
-                    System.out.println("SCANNER: End Document");
                     return "$";
                 }
             }
@@ -95,7 +90,7 @@ public class PaFacesTokenizer {
         return null;
     }
 
-    public void close() throws XMLStreamException{
+    public void close() throws XMLStreamException {
         reader.close();
     }
 }
