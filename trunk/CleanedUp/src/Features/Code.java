@@ -1,13 +1,7 @@
-package PaFaces;
-
+package Features;
 
 import java.util.LinkedList;
 
-
-/**
- *
- * @author andrealottarini
- */
 public class Code {
 
     private StringBuilder head;
@@ -17,7 +11,7 @@ public class Code {
     private StringBuilder preRender;
     private LinkedList<String> preRendered;
 
-    public Code(){
+    public Code() {
         head = new StringBuilder();
         var = new StringBuilder();
         constr = new StringBuilder();
@@ -49,6 +43,4 @@ public class Code {
     public StringBuilder getVar() {
         return var;
     }
-
-    
 }

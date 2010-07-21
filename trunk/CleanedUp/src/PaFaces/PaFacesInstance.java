@@ -1,11 +1,11 @@
 package PaFaces;
 
+import Features.Code;
 import java.util.Iterator;
 
 public class PaFacesInstance extends PaFacesMarkup {
 
-    // nome della variabile di istanza associata al nodo.
-    String name = "";
+    String name = ""; // name of the instance
 
     public PaFacesInstance() {
         super();
@@ -66,9 +66,6 @@ public class PaFacesInstance extends PaFacesMarkup {
             // creo l'associazione
             code.getRender().append("\t\t" + name + "." + attrName + "=" + childName + ";\n");
         }
-
-
-        //metto la chiamata di render dell'oggetto embedded
         code.getRender().append("\t\t" + name + ".render(output,headText);\n");
     }
 

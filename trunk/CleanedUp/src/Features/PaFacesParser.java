@@ -3,15 +3,14 @@ package Features;
 import PaFaces.*;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.*;
 import sun.security.pkcs.ParsingException;
 
 public class PaFacesParser {
 
     private PaFacesTokenizer scanner;
     private String lookahead;
-    private boolean markup;
+    private boolean markup;  //presence of generate tag
 
     public PaFacesParser(String filename) throws FileNotFoundException, XMLStreamException {
         scanner = new PaFacesTokenizer(filename);
@@ -20,7 +19,7 @@ public class PaFacesParser {
     }
 
     public PaFacesObject parseComponent() throws XMLStreamException, ParsingException {
-        
+
         PaFacesObject machine;
         machine = parseElement();
         match("$");
@@ -29,13 +28,11 @@ public class PaFacesParser {
     }
 
     private PaFacesObject parseElement() throws XMLStreamException, ParsingException {
-        
-        /* parso il primo TAG necessario e lo assegno al nodo che mi rappresenta*/
+
+        /*parsing of the first tag*/
         PaFacesObject machine = parseTag();
         if (scanner.sectionType != XMLStreamConstants.END_ELEMENT) {
-            //C'E` UN TREE
-            
-            //ESSENDO UN TREE LA SU ROBA STA NEI FIGLIOLI
+
             machine.children = parseTree();
         }
         /* Either I parsed a tree or a single element I need to match its closing tag*/
@@ -51,7 +48,7 @@ public class PaFacesParser {
     }
 
     private LinkedList<PaFacesObject> parseTree() throws XMLStreamException, ParsingException {
-        
+
 
         PaFacesObject actual = parseText();
         if (actual == null) {
@@ -72,11 +69,10 @@ public class PaFacesParser {
         }
     }
 
-    // THIS METHOD EXPLICETELY HAS NO RETURN STATUS
     private void parseClosingTag() throws XMLStreamException, ParsingException {
-        
+
         if (scanner.sectionType == XMLStreamConstants.END_ELEMENT) {
-            
+
             lookahead = scanner.next();
         } else {
             throw new ParsingException();
@@ -141,15 +137,15 @@ public class PaFacesParser {
     }
 
     private PaFacesObject parseText() throws XMLStreamException {
-        
+
         if (scanner.sectionType == XMLStreamConstants.CHARACTERS) {
             PaFacesText temp = new PaFacesText(lookahead);
-           
+
             lookahead = scanner.next();
             return temp;
 
         }
-        
+
         return null;
 
     }
