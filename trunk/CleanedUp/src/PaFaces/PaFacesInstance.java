@@ -1,5 +1,7 @@
 package PaFaces;
 
+import java.util.Iterator;
+
 public class PaFacesInstance extends PaFacesMarkup {
 
     // nome della variabile di istanza associata al nodo.
@@ -13,7 +15,7 @@ public class PaFacesInstance extends PaFacesMarkup {
         super(id);
     }
 
-    public PaFacesInstance(String id,String name) {
+    public PaFacesInstance(String id, String name) {
         super(id);
         this.name = name;
     }
@@ -24,10 +26,12 @@ public class PaFacesInstance extends PaFacesMarkup {
 
     @Override
     public void getCode(Code code) {
-
+        Iterator<PaFacesAttribute> h = attr.iterator();
+        PaFacesAttribute attribute;
         //nome della variabile di istanza analizzata
-        for (PaFacesAttribute attribute : this.attr) {
-            //variabile
+        while (h.hasNext()) {
+            attribute = h.next();
+
             if (attribute.id.equals("id")) {
                 name = attribute.value;
                 //Classe
@@ -43,31 +47,31 @@ public class PaFacesInstance extends PaFacesMarkup {
             } else {
                 if (attribute.value.contains("$")) {
                     code.getRender().append("\t\t" + name + "." + attribute.id + "=" + attribute.value.substring(attribute.value.indexOf("{") + 1, attribute.value.lastIndexOf("}")) + ";\n");
-                }
-                else{
-                    code.getRender().append("\t\t" + name + "." + attribute.id + "=\"" + attribute.value +"\";\n");
+                } else {
+                    code.getRender().append("\t\t" + name + "." + attribute.id + "=\"" + attribute.value + "\";\n");
                 }
             }
         }
 
-        if (children.size() > 0) {
-            //NESTED
-            for (PaFacesObject child : children) {
-                //prendo il nome dell'attributo
-                String attrName = child.id;
-                // prendo un riferimento al figlio
-                PaFacesObject son = child.children.getFirst();
-                // invoco la getCode sull'istanza associata
-                son.getCode(code);
-                //richiedo il nome del componente nested
-                String childName = son.getName();
-                //devo togliere il render del figlio
-                //System.out.println(code.render.lastIndexOf("\n", code.render.length() -2));
-                code.getRender().delete(code.getRender().lastIndexOf("\n", code.getRender().length() -2)+1,code.getRender().length());
-                // creo l'associazione
-                code.getRender().append("\t\t" + name + "." + attrName + "=" + childName + ";\n");
-            }
+        Iterator<PaFacesObject> i = children.iterator();
+        PaFacesObject child;
+        while(i.hasNext()){
+            child = i.next();
+            //prendo il nome dell'attributo
+            String attrName = child.id;
+            // prendo un riferimento al figlio
+            PaFacesObject son = child.children.getFirst();
+            // invoco la getCode sull'istanza associata
+            son.getCode(code);
+            //richiedo il nome del componente nested
+            String childName = son.getName();
+            //devo togliere il render del figlio
+            //System.out.println(code.render.lastIndexOf("\n", code.render.length() -2));
+            code.getRender().delete(code.getRender().lastIndexOf("\n", code.getRender().length() - 2) + 1, code.getRender().length());
+            // creo l'associazione
+            code.getRender().append("\t\t" + name + "." + attrName + "=" + childName + ";\n");
         }
+
 
         //metto la chiamata di render dell'oggetto embedded
         code.getRender().append("\t\t" + name + ".render(output,headText);\n");

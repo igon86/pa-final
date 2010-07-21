@@ -1,16 +1,7 @@
 package PaFaces;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+import java.util.Iterator;
 
-import PaFaces.Code;
-
-/**
- *
- * @author andrealottarini
- */
 public class PaFacesHtml extends PaFacesElement{
 
     public PaFacesHtml(){
@@ -26,7 +17,12 @@ public class PaFacesHtml extends PaFacesElement{
         
         if (this.children.size() > 0){
             code.getRender().append("\t\toutput.println(\"<"+id+">\");\n");
-            for ( PaFacesObject child : this.children ) child.getCode(code);
+            Iterator<PaFacesObject> i = children.iterator();
+            PaFacesObject child;
+            while ( i.hasNext() ){
+                child = i.next();
+                child.getCode(code);
+            }
             code.getRender().append("\t\toutput.println(\"</"+id+">\");\n");
         }
         else{

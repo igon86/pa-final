@@ -5,6 +5,7 @@ package PaFaces;
  * and open the template in the editor.
  */
 import PaFaces.Code;
+import java.util.Iterator;
 /**
  *
  * @author andrealottarini
@@ -25,11 +26,10 @@ public class PaFacesUsing extends PaFacesMarkup {
         //POTREBBE NON AVERE SENSO
         String temp = this.attr.getFirst().id;
         code.getHead().append("import " + temp + ".*;\n");
-        // se faccio il namespace a garbo ci sono i figlioli
-        for ( PaFacesObject child : children ){
-            child.getCode(code);
-        }
-        //System.out.print(header);
+        Iterator<PaFacesObject> i = children.iterator();
+        
+        while(i.hasNext()) i.next().getCode(code);
+        
     }
 
     @Override
