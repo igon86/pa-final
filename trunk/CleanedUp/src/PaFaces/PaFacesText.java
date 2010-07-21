@@ -1,37 +1,22 @@
 package PaFaces;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-import PaFaces.Code;
+public class PaFacesText extends PaFacesObject {
 
-
-import java.util.LinkedList;
-
-/**
- *
- * @author andrealottarini
- */
-public class PaFacesText extends PaFacesObject{
-
-    public PaFacesText(){
+    public PaFacesText() {
         super();
     }
 
-    public PaFacesText(String id){
+    public PaFacesText(String id) {
         super(id);
     }
 
     @Override
     public void getCode(Code code) {
-        code.getRender().append("\t\toutput.println(\""+this.id.trim()+"\");\n");
+        code.getRender().append("\t\toutput.println(\"" + this.id + "\");\n");
     }
 
     @Override
     public String getName() {
         return this.id;
     }
-
-    
 }

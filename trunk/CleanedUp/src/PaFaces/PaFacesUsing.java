@@ -1,15 +1,7 @@
 package PaFaces;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-import PaFaces.Code;
 import java.util.Iterator;
-/**
- *
- * @author andrealottarini
- */
+
 public class PaFacesUsing extends PaFacesMarkup {
 
     public PaFacesUsing() {
@@ -22,8 +14,6 @@ public class PaFacesUsing extends PaFacesMarkup {
 
     @Override
     public void getCode(Code code) {
-        //System.out.println("Ho beccato using");
-        //POTREBBE NON AVERE SENSO
         String temp = this.attr.getFirst().id;
         code.getHead().append("import " + temp + ".*;\n");
         Iterator<PaFacesObject> i = children.iterator();
@@ -34,7 +24,7 @@ public class PaFacesUsing extends PaFacesMarkup {
 
     @Override
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return id;
     }
 
 
