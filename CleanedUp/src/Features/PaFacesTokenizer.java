@@ -1,19 +1,8 @@
 package Features;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 import java.io.*;
-import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.*;
 
-/**
- *
- * @author andrealottarini
- */
 public class PaFacesTokenizer {
 
     private int actualAttribute, numAttribute;
@@ -25,8 +14,6 @@ public class PaFacesTokenizer {
 
     public PaFacesTokenizer(String filename) throws FileNotFoundException, XMLStreamException {
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-
-        //inputFactory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, Boolean.FALSE);
 
         File f = new File(filename);
         

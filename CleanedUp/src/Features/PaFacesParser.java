@@ -1,28 +1,12 @@
 package Features;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-import PaFaces.PaFacesObject;
-import PaFaces.PaFacesElement;
-import PaFaces.PaFacesUsing;
-import PaFaces.PaFacesHtml;
-import PaFaces.PaFacesInsert;
-import PaFaces.PaFacesIstance;
-import PaFaces.PaFacesText;
-import PaFaces.PaFacesAttributes;
-import Main.*;
+import PaFaces.*;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import sun.security.pkcs.ParsingException;
-/**
- *
- * @author andrealottarini
- */
+
 public class PaFacesParser {
 
     private PaFacesTokenizer scanner;
@@ -110,24 +94,28 @@ public class PaFacesParser {
         if (scanner.sectionType == XMLStreamConstants.START_ELEMENT) {
 
             PaFacesElement ret;
-            LinkedList<PaFacesAttributes> attr = new LinkedList<PaFacesAttributes>();
+            LinkedList<PaFacesAttribute> attributes = new LinkedList<PaFacesAttribute>();
+            String name = "";
             String id = lookahead;
-
-            System.out.println("parseTag: chiamo la next per vedere gli attributi");
             lookahead = scanner.next();
-            attr = parseAttribute();
-            System.out.println("La lista contiene " + attr.size());
+            PaFacesAttribute attr = parseAttribute();
+            
+            while (attr != null){
+                System.out.println("Attributo: "+attr.id+" "+attr.value);
+                attributes.add(attr);
+                if ( attr.id.equals("code") && attr.value.equals("generate") ) markup = true;
+                if ( attr.id.equals("id") ) name = attr.value;
+                attr = parseAttribute();
+            }
+
             if (id.equals("using")) {
-                System.out.println("PaFacesUSING: " + id);
                 ret = new PaFacesUsing(id);
             } else if (id.equals("insert-head")) {
-                System.out.println("PaFacesINSERT: " + id);
                 ret = new PaFacesInsert(id);
-
             } else {
                 if (markup) {
                     System.out.println("PaFacesISTANCE: " + id);
-                    ret = new PaFacesIstance(id);
+                    ret = new PaFacesInstance(id,name);
                 } else {
                     System.out.println("PaFacesHTML: " + id);
                     ret = new PaFacesHtml(id);
@@ -135,34 +123,26 @@ public class PaFacesParser {
 
             }
             markup = false;
-            ret.attr = attr;
+            ret.attr = attributes;
             return ret;
         }
         return null;
     }
 
-    private LinkedList<PaFacesAttributes> parseAttribute() throws XMLStreamException {
-        System.out.println("Parse Attribute: " + lookahead);
-        LinkedList<PaFacesAttributes> ret = new LinkedList<PaFacesAttributes>();
+    private PaFacesAttribute parseAttribute() throws XMLStreamException {
+
+        
         String id = null, value = null;
 
-        while (scanner.sectionType == XMLStreamConstants.ATTRIBUTE || scanner.sectionType == XMLStreamConstants.NAMESPACE) {
-            //E` il nome
-            if (scanner.retname) {
-                id = lookahead;
-            } //e` il valore
-            else {
-                value = lookahead;
-                ret.add(new PaFacesAttributes(id, value));
-                if (id.equals("code") && value.equals("generate")) {
-                    System.out.println("BECCATO IL MARKUP");
-                    markup = true;
-                }
-            }
+        if (scanner.sectionType == XMLStreamConstants.ATTRIBUTE || scanner.sectionType == XMLStreamConstants.NAMESPACE) {
+            id = lookahead;
             lookahead = scanner.next();
+            value = lookahead;
+            lookahead = scanner.next();
+            return new PaFacesAttribute(id, value);
         }
 
-        return ret;
+        return null;
 
     }
 

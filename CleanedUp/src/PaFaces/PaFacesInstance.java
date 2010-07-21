@@ -1,25 +1,21 @@
 package PaFaces;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-import PaFaces.Code;
-/**
- *
- * @author andrealottarini
- */
-public class PaFacesIstance extends PaFacesMarkup {
+public class PaFacesInstance extends PaFacesMarkup {
 
     // nome della variabile di istanza associata al nodo.
     String name = "";
 
-    public PaFacesIstance() {
+    public PaFacesInstance() {
         super();
     }
 
-    public PaFacesIstance(String id) {
+    public PaFacesInstance(String id) {
         super(id);
+    }
+
+    public PaFacesInstance(String id,String name) {
+        super(id);
+        this.name = name;
     }
 
     private String getClasse() {
@@ -28,9 +24,9 @@ public class PaFacesIstance extends PaFacesMarkup {
 
     @Override
     public void getCode(Code code) {
-        
+
         //nome della variabile di istanza analizzata
-        for (PaFacesAttributes attribute : this.attr) {
+        for (PaFacesAttribute attribute : this.attr) {
             //variabile
             if (attribute.id.equals("id")) {
                 name = attribute.value;
@@ -53,7 +49,7 @@ public class PaFacesIstance extends PaFacesMarkup {
                 }
             }
         }
-        
+
         if (children.size() > 0) {
             //NESTED
             for (PaFacesObject child : children) {

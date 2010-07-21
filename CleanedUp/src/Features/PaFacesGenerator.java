@@ -1,20 +1,10 @@
 package Features;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 import PaFaces.PaFacesObject;
 import PaFaces.Code;
-import Main.*;
+
 import java.io.PrintStream;
 
-/**
- *
- * @author andrealottarini
- */
 public class PaFacesGenerator {
 
     private static final String HEADER="import java.util.List;\nimport java.io.PrintStream;\nimport java.util.Calendar;\n";
