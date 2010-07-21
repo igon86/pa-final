@@ -1,5 +1,7 @@
 package PaFaces;
 
+import Features.Code;
+
 public class PaFacesText extends PaFacesObject {
 
     public PaFacesText() {

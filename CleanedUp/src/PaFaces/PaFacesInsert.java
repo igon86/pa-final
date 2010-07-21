@@ -1,17 +1,8 @@
 package PaFaces;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+import Features.Code;
 
-import PaFaces.Code;
-
-/**
- *
- * @author andrealottarini
- */
-public class PaFacesInsert extends PaFacesMarkup{
+public class PaFacesInsert extends PaFacesMarkup {
 
     public PaFacesInsert() {
         super();
@@ -23,7 +14,7 @@ public class PaFacesInsert extends PaFacesMarkup{
 
     @Override
     public void getCode(Code code) {
-        
+
         code.getRender().append("\t\tfor ( String s : headText) output.println(s);\n");
     }
 
@@ -31,5 +22,4 @@ public class PaFacesInsert extends PaFacesMarkup{
     public String getName() {
         return "";
     }
-
 }
