@@ -26,8 +26,7 @@ public class PaFacesGenerator {
         pout.print(code.getPreRender());
         pout.println("\t}\n\tpublic void render(PrintStream output, List<String> headText){");
         pout.print(code.getRender());
-        pout.println("\t}");
-        pout.println("}");
+        pout.println("\t}\n}");
     }
 }
 

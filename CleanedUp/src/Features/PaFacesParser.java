@@ -49,7 +49,7 @@ public class PaFacesParser {
 
     private LinkedList<PaFacesObject> parseTree() throws XMLStreamException, ParsingException {
 
-
+        /* check whether text or element is present */
         PaFacesObject actual = parseText();
         if (actual == null) {
             actual = parseElement();
@@ -58,7 +58,8 @@ public class PaFacesParser {
         if (actual != null) {
             LinkedList<PaFacesObject> ret = new LinkedList<PaFacesObject>();
             ret.add(actual);
-            LinkedList<PaFacesObject> next;
+
+            LinkedList<PaFacesObject> next; /* check for children */
             next = parseTree();
             if (next != null) {
                 ret.addAll(next);
@@ -139,11 +140,9 @@ public class PaFacesParser {
     private PaFacesObject parseText() throws XMLStreamException {
 
         if (scanner.sectionType == XMLStreamConstants.CHARACTERS) {
-            PaFacesText temp = new PaFacesText(lookahead);
-
+            PaFacesText ret = new PaFacesText(lookahead);
             lookahead = scanner.next();
-            return temp;
-
+            return ret;
         }
 
         return null;

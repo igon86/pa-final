@@ -28,13 +28,11 @@ public class PaFacesTokenizer {
 
             retname = !retname;
             if (retname) {
-                String dummy = reader.getNamespacePrefix(actualNamespace);
+                return reader.getNamespacePrefix(actualNamespace);
 
-                return dummy;
             } else {
-                String dummy = reader.getNamespaceURI(actualNamespace++);
+                return reader.getNamespaceURI(actualNamespace++);
 
-                return dummy;
             }
         }
 
@@ -43,44 +41,36 @@ public class PaFacesTokenizer {
 
             retname = !retname;
             if (retname) {
-                String dummy = reader.getAttributeLocalName(actualAttribute);
+                return reader.getAttributeLocalName(actualAttribute);
 
-                return dummy;
             } else {
-                String dummy = reader.getAttributeValue(actualAttribute++);
+                return reader.getAttributeValue(actualAttribute++);
 
-                return dummy;
             }
         }
 
-        String text = "";
+
         while (reader.hasNext()) {
             sectionType = reader.next();
 
             switch (sectionType) {
                 case XMLStreamReader.CHARACTERS: {
                     if (!reader.getText().trim().isEmpty()) {
-                        text = reader.getText().trim();
-
-                        return text;
+                        return reader.getText().trim();
                     }
                     break;
                 }
                 case XMLStreamReader.START_ELEMENT: {
-
-                    numAttribute = reader.getAttributeCount();
-                    numNamespace = reader.getNamespaceCount();
-                    String local = reader.getLocalName();
-
                     actualAttribute = 0;
                     actualNamespace = 0;
-                    return local;
+                    numAttribute = reader.getAttributeCount();
+                    numNamespace = reader.getNamespaceCount();
+                    return reader.getLocalName();
                 }
                 case XMLStreamReader.END_ELEMENT: {
 
-                    String local = reader.getLocalName();
+                    return reader.getLocalName();
 
-                    return local;
                 }
                 case XMLStreamReader.END_DOCUMENT: {
                     return "$";
