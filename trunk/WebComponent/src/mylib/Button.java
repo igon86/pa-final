@@ -7,10 +7,6 @@ public class Button implements WebComponent {
 
     public String image;
 
-    public Button(String string) {
-        image = string;
-    }
-
     public Button() {
     }
 
