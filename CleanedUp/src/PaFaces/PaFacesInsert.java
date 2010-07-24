@@ -14,8 +14,8 @@ public class PaFacesInsert extends PaFacesMarkup {
 
     @Override
     public void getCode(Code code) {
-
-        code.getRender().append("\t\tfor ( String s : headText) output.println(s);\n");
+        code.getVar().append("\tpublic List<String> preRendered;\n");
+        code.getRender().append("\t\tfor ( String s : preRendered) output.println(s);\n");
     }
 
     @Override
