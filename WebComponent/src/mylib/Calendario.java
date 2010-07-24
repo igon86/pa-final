@@ -48,7 +48,5 @@ public class Calendario implements WebComponent {
             i++;
         }
         output.println("</tr></tbody></table> </td> </tr> ");
-
-
     }
 }
