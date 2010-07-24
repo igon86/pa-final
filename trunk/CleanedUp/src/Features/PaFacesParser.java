@@ -125,7 +125,7 @@ public class PaFacesParser {
 
         String id = null, value = null;
 
-        if (scanner.sectionType == XMLStreamConstants.ATTRIBUTE || scanner.sectionType == XMLStreamConstants.NAMESPACE) {
+        if (scanner.sectionType == XMLStreamConstants.ATTRIBUTE) {
             id = lookahead;
             lookahead = scanner.next();
             value = lookahead;

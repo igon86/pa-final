@@ -1,7 +1,6 @@
 package PaFaces;
 
 import Features.Code;
-import java.util.Iterator;
 
 public class PaFacesUsing extends PaFacesMarkup {
 
@@ -15,12 +14,7 @@ public class PaFacesUsing extends PaFacesMarkup {
 
     @Override
     public void getCode(Code code) {
-        String temp = this.attr.getFirst().id;
-        code.getHead().append("import " + temp + ".*;\n");
-        Iterator<PaFacesObject> i = children.iterator();
-        
-        while(i.hasNext()) i.next().getCode(code);
-        
+        code.getHead().append("import " + this.attr.getFirst().id + ".*;\n");
     }
 
     @Override

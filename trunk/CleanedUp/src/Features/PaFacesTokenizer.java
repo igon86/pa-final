@@ -8,12 +8,13 @@ public class PaFacesTokenizer {
     private int actualAttribute, numAttribute;
     private XMLStreamReader reader;
     boolean retname = false;
-    private int actualNamespace, numNamespace;
     public int sectionType;
 
     public PaFacesTokenizer(String filename) throws FileNotFoundException, XMLStreamException {
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 
+        inputFactory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, Boolean.FALSE);
+        
         File f = new File(filename);
 
         FileInputStream fin = new FileInputStream(f);
@@ -22,19 +23,6 @@ public class PaFacesTokenizer {
     }
 
     public String next() throws XMLStreamException {
-
-        if (actualNamespace < numNamespace) {
-            sectionType = XMLStreamConstants.NAMESPACE;
-
-            retname = !retname;
-            if (retname) {
-                return reader.getNamespacePrefix(actualNamespace);
-
-            } else {
-                return reader.getNamespaceURI(actualNamespace++);
-
-            }
-        }
 
         if (actualAttribute < numAttribute) {
             sectionType = XMLStreamConstants.ATTRIBUTE;
@@ -62,9 +50,7 @@ public class PaFacesTokenizer {
                 }
                 case XMLStreamReader.START_ELEMENT: {
                     actualAttribute = 0;
-                    actualNamespace = 0;
                     numAttribute = reader.getAttributeCount();
-                    numNamespace = reader.getNamespaceCount();
                     return reader.getLocalName();
                 }
                 case XMLStreamReader.END_ELEMENT: {
