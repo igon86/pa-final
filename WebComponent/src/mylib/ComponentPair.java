@@ -8,6 +8,9 @@ public class ComponentPair implements WebComponent {
     public WebComponent first;
     public WebComponent second;
 
+    public ComponentPair(){
+    }
+
     public void preRender(List<String> headtext) {
         
     }
