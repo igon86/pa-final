@@ -20,7 +20,6 @@ public class PaFacesInstance extends PaFacesMarkup {
         this.name = name;
     }
 
-    @Override
     public void getCode(Code code) {
         Iterator<PaFacesAttribute> h = attr.iterator();
         PaFacesAttribute attribute;
@@ -66,10 +65,9 @@ public class PaFacesInstance extends PaFacesMarkup {
             // creo l'associazione
             code.getRender().append("\t\t" + name + "." + attrName + "=" + childName + ";\n");
         }
-        code.getRender().append("\t\t" + name + ".render(output,headText);\n");
+        code.getRender().append("\t\t" + name + ".render(output);\n");
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
