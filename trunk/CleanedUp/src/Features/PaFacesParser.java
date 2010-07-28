@@ -28,13 +28,8 @@ public class PaFacesParser {
     }
 
     private PaFacesObject parseElement() throws XMLStreamException, ParsingException {
-
         /*parsing of the first tag*/
         PaFacesObject machine = parseTag();
-        if (scanner.sectionType != XMLStreamConstants.END_ELEMENT) {
-
-            machine.children = parseTree();
-        }
         /* Either I parsed a tree or a single element I need to match its closing tag*/
         if (machine != null) {
             LinkedList<PaFacesObject> sons = parseTree();
