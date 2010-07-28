@@ -2,7 +2,7 @@ package PaFaces;
 
 import Features.Code;
 
-public class PaFacesInsert extends PaFacesMarkup {
+public class PaFacesInsert extends PaFacesElement {
 
     public PaFacesInsert() {
         super();

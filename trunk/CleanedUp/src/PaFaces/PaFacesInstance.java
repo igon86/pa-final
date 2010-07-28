@@ -3,7 +3,7 @@ package PaFaces;
 import Features.Code;
 import java.util.Iterator;
 
-public class PaFacesInstance extends PaFacesMarkup {
+public class PaFacesInstance extends PaFacesElement {
 
     String name = ""; // name of the instance
 
